@@ -29,6 +29,12 @@ const Home = () => {
         >
           Sign In
         </Link>
+        <Link
+          to="/signUp"
+          className="ml-4 bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-800 transition"
+        >
+          Sign Up!
+        </Link>
       </div>
     </div>
   );
