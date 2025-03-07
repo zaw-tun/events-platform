@@ -19,25 +19,28 @@ const Login = () => {
   };
 
   return (
-    <div className="">
-      <h2 className="">Log In</h2>
-      {error && <p className="">{error}</p>}
-      <form onSubmit={handleLogin} className="">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-6">
+      <h2 className="text-2xl font-bold mb-4">Log In</h2>
+      {error && <p className="text-red-500">{error}</p>}
+      <form onSubmit={handleLogin} className="flex flex-col gap-4">
         <input
           type="email"
           placeholder="Email"
-          className=""
+          className="p-2 border rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
-          className=""
+          className="p-2 border rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className="">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
           Log In
         </button>
       </form>

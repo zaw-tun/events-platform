@@ -7,16 +7,13 @@ import {
 
 export const signUp = async (email, password) => {
   try {
-    console.log("calling Firebase signUp:", { email, password });
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    console.log("calling Firebase successful:", userCredential);
     return { success: true, user: userCredential.user };
   } catch (error) {
-    console.log("Firebase signUp error:", error.message);
     return { success: false, error: error.message };
   }
 };

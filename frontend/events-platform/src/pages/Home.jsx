@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { logOut } from "../utils/auth";
+import { auth } from "../firebase/firebaseConfig";
+import { db } from "../firebase/firebaseConfig";
+import { getDoc, doc } from "firebase/firestore";
 
 const Home = () => {
+  const [user, setUser] = useState(null);
+  const [userName, setUserName] = useState("");
+
   useEffect(() => {
-    console.log("Home component loaded!");
+    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        const userRef = doc(db, "users", currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setUserName(userSnap.data().name);
+        }
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -23,18 +40,29 @@ const Home = () => {
         >
           Browse Events
         </Link>
-        <Link
-          to="/login"
-          className="ml-4 bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-800 transition"
-        >
-          Sign In
-        </Link>
-        <Link
-          to="/signUp"
-          className="ml-4 bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-800 transition"
-        >
-          Sign Up!
-        </Link>
+        {user ? (
+          <>
+            <span className="mr-4">Hello, {userName || "User"}! </span>
+            <button onClick={logOut} className="bg-red-500 px-4 py-2 rounded">
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="ml-4 bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-800 transition"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signUp"
+              className="ml-4 bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-800 transition"
+            >
+              Sign Up!
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
