@@ -1,23 +1,42 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchEvents } from "../utils/eventbriteAPI";
+import { registerForEvent } from "../utils/firestore";
+import { auth } from "../firebase/firebaseConfig";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const getEvents = async () => {
       const eventData = await fetchEvents();
-      console.log("Fetched events:", eventData);
       setEvents(eventData);
     };
     getEvents();
+
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
   }, []);
+
+  const handleRegister = async (event) => {
+    if (!user) {
+      setMessage("Please log in to register for events.");
+      return;
+    }
+
+    const result = await registerForEvent(user.uid, event);
+    setMessage(
+      result.success ? "You are successfully registered!" : result.message
+    );
+  };
 
   return (
     <div className="p-5">
       <h2 className="text-2xl font-bold mb-4">Upcoming Events</h2>
+      {message && <p className="text-green-600">{message}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {events.map((event) => (
           <div key={event.id} className="border p-4 rounded shadow">
@@ -42,6 +61,12 @@ const Events = () => {
             >
               View Event
             </a>
+            <button
+              onClick={() => handleRegister(event)}
+              className="mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+            >
+              Register
+            </button>
           </div>
         ))}
       </div>

@@ -33,7 +33,7 @@ const Navbar = () => {
       <div>
         {user ? (
           <>
-            <span className="mr-4">Hello, {userName || "User"}! </span>
+            <span className="mr-4">Hey {userName || "User"}! </span>
             <button onClick={logOut} className="bg-red-500 px-4 py-2 rounded">
               Logout
             </button>
