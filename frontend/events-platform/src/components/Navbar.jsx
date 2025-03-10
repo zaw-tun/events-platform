@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { logOut } from "../utils/auth";
-import { auth } from "../firebase/firebaseConfig";
-import { db } from "../firebase/firebaseConfig";
+import { auth, db } from "../firebase/firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
 import logo from "../assets/CC.png";
 
@@ -26,7 +25,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="p-4 bg-gray-800 text-white flex justify-between items-center">
+    <nav className="p-4 bg-gray-800 text-white flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
       <Link to="/">
         <img src={logo} alt="Community Connect Logo" className="h-10" />
       </Link>

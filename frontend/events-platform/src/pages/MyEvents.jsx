@@ -25,6 +25,16 @@ const MyEvents = () => {
     return () => unsubscribe();
   }, []);
 
+  const addToGoogleCalendar = (event) => {
+    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+      event.name
+    )}&dates=${event.date.replace(/[-:]/g, "")}/${event.date.replace(
+      /[-:]/g,
+      ""
+    )}&details=${encodeURIComponent(event.url)}&location=&sf=true&output=xml`;
+    window.open(googleCalendarUrl, "_blank");
+  };
+
   return (
     <div className="p-5">
       <h2 className="text-2xl font-bold mb-4">My Registered Events</h2>
@@ -46,6 +56,12 @@ const MyEvents = () => {
               >
                 View Event
               </a>
+              <button
+                onClick={() => addToGoogleCalendar(event)}
+                className="ml-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+              >
+                Add to Calendar
+              </button>
             </li>
           ))}
         </ul>
