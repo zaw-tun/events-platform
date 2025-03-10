@@ -34,6 +34,9 @@ const Navbar = () => {
         {user ? (
           <>
             <span className="mr-4">Hey {userName || "User"}! </span>
+            <Link to="/myevents" className="mr-4">
+              My Events
+            </Link>
             <button onClick={logOut} className="bg-red-500 px-4 py-2 rounded">
               Logout
             </button>
@@ -43,7 +46,7 @@ const Navbar = () => {
             <Link to="/login" className="mr-4">
               Login
             </Link>
-            <Link to="/signup" className="">
+            <Link to="/signup" className="mr-4">
               Sign Up
             </Link>
           </>
