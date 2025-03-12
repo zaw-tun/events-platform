@@ -25,7 +25,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-6">
+    <div className="flex flex-col items-center justify-center h-screen w-screen bg-yellow-50 p-6">
       <h1 className="text-4xl font-bold text-gray-800 mb-4">
         Welcome to the Community Events Platform
       </h1>
@@ -42,10 +42,10 @@ const Home = () => {
         </Link>
         {user ? (
           <>
-            <span className="mr-4">Hello, {userName || "User"}! </span>
+            {/* <span className="mr-9"> </span>
             <button onClick={logOut} className="bg-red-500 px-4 py-2 rounded">
               Logout
-            </button>
+            </button> */}
           </>
         ) : (
           <>

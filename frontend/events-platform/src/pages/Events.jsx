@@ -42,8 +42,8 @@ const Events = () => {
   };
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">Upcoming Events</h2>
+    <div className="mt-2 bg-yellow-50 flex flex-col items-center justify-center h-screen w-screen p-6">
+      <h2 className="text-2xl font-bold text-blue-600 mb-4">Upcoming Events</h2>
       {message && <p className="text-green-600">{message}</p>}
       {loading ? (
         <p className="text-center text-gray-600">Loading Events...</p>
@@ -61,32 +61,36 @@ const Events = () => {
                   className="w-full h-48 object-cover rounded"
                 />
               ) : (
-                <div className="w-full h-48 bg-gray-200 flex items-center justify-centre">
+                <div className="flex-col justify-center w-full h-48 bg-black-200 flex items-center justify-centre">
                   <span>No Image Available</span>
                 </div>
               )}
-              <h3 className="text-lg font-semibold">{event.name.text}</h3>
-              <p>
+              <h3 className="text-lg text-orange-500 font-semibold">
+                {event.name.text}
+              </h3>
+              <p className="text-gray-600">
                 {event.description.text?.slice(0, 100) ||
                   "No description available."}
               </p>
               <p className="text-sm text-gray-600">
                 {new Date(event.start.local).toDateString()}
               </p>
-              <a
-                href={event.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500"
-              >
-                View Event
-              </a>
-              <button
-                onClick={() => handleRegister(event)}
-                className="mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
-              >
-                Register
-              </button>
+              <div className="flex justify-between items-center mt-2">
+                <a
+                  href={event.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-orange-500"
+                >
+                  View Event
+                </a>
+                <button
+                  onClick={() => handleRegister(event)}
+                  className="ml-40 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+                >
+                  Register
+                </button>
+              </div>
             </div>
           ))}
         </div>
