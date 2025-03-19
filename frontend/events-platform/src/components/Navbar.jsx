@@ -8,6 +8,7 @@ import logo from "../assets/CC.png";
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState("");
+  const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
@@ -17,6 +18,7 @@ const Navbar = () => {
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           setUserName(userSnap.data().name);
+          setUserRole(userSnap.data().role);
         }
       }
     });
@@ -33,6 +35,11 @@ const Navbar = () => {
         {user ? (
           <>
             <span className="mr-4">Hey {userName || "User"}! </span>
+            {userRole === "staff" && (
+              <Link to="/admin" className="mr-4">
+                Admin Dashboard
+              </Link>
+            )}
             <Link to="/myevents" className="mr-4">
               My Events
             </Link>

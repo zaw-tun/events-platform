@@ -18,7 +18,7 @@ const SignUp = () => {
 
       if (result.success) {
         const userRef = doc(db, "users", result.user.uid);
-        await setDoc(userRef, { name });
+        await setDoc(userRef, { name, role: "user" });
 
         navigate("/events");
       } else {

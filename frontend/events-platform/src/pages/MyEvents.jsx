@@ -19,6 +19,7 @@ const MyEvents = () => {
         const eventsSnap = await getDocs(eventsRef);
         const eventsList = eventsSnap.docs.map((doc) => doc.data());
         setEvents(eventsList);
+        console.log(eventsList);
       }
     });
 
@@ -43,32 +44,51 @@ const MyEvents = () => {
       {events.length === 0 ? (
         <p>No events registered yet.</p>
       ) : (
-        <ul>
-          {events.map((event, index) => (
-            <li key={index} className="border p-4 rounded shadow mb-2">
-              <h3 className="text-lg text-orange-500 font-semibold">{event.name}</h3>
-              <p className="text-sm text-gray-600">
-                {new Date(event.date).toDateString()}
-              </p>
-              <div className="flex justify-between items-center mt-2">
-                <a
-                  href={event.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500"
-                >
-                  View Event
-                </a>
-                <button
-                  onClick={() => addToGoogleCalendar(event)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-                >
-                  Add to Calendar
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-gray-300 text-orange-500">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="py-2 px-4 border">Event Name</th>
+                <th className="py-2 px-4 border">Venue</th>
+                <th className="py-2 px-4 border">Start Date & Time</th>
+                <th className="py-2 px-4 border">Event External Link</th>
+                <th className="py-2 px-4 border">Add to Calendar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((event, index) => (
+                <tr key={index} className="border">
+                  <td className="py-2 px-4 border">{event.name}</td>
+                  <td className="py-2 px-4 border">
+                    {event.venue || "Not available"}
+                  </td>
+                  <td className="py-2 px-4 border">
+                    {new Date(event.date).toDateString()}
+                  </td>
+
+                  <td className="py-2 px-4 border">
+                    <a
+                      href={event.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500"
+                    >
+                      View Event
+                    </a>
+                  </td>
+                  <td className="py-2 px-4 border">
+                    <button
+                      onClick={() => addToGoogleCalendar(event)}
+                      className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition"
+                    >
+                      Add to Calendar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

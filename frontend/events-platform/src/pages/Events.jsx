@@ -15,6 +15,7 @@ const Events = () => {
       try {
         const eventData = await fetchEvents();
         setEvents(eventData);
+        console.log(eventData);
       } catch (error) {
         console.error("Error fetching events:", error);
         setMessage("Failed to load events. Please try again later.");
@@ -36,6 +37,7 @@ const Events = () => {
     }
 
     const result = await registerForEvent(user.uid, event);
+    console.log(event);
     setMessage(
       result.success ? "You are successfully registered!" : result.message
     );
@@ -61,7 +63,7 @@ const Events = () => {
                   className="w-full h-48 object-cover rounded"
                 />
               ) : (
-                <div className="flex-col justify-center w-full h-48 bg-black-200 flex items-center justify-centre">
+                <div className="flex-col justify-center w-full h-48 bg-gray-300 flex items-center justify-centre">
                   <span>No Image Available</span>
                 </div>
               )}
