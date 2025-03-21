@@ -38,7 +38,7 @@ const MyEvents = () => {
 
   return (
     <div className="mt-2 bg-yellow-50 flex flex-col items-center justify-center h-screen w-screen p-6">
-      <h2 className="text-2xl font-bold text-blue-600 mb-4">
+      <h2 className="text-2xl font-bold text-black mb-4">
         My Registered Events
       </h2>
       {events.length === 0 ? (
@@ -52,7 +52,7 @@ const MyEvents = () => {
                 <th className="py-2 px-4 border">Venue</th>
                 <th className="py-2 px-4 border">Start Date & Time</th>
                 <th className="py-2 px-4 border">Event External Link</th>
-                <th className="py-2 px-4 border">Add to Calendar</th>
+                <th className="py-2 px-4 border">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -82,6 +82,12 @@ const MyEvents = () => {
                       className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition"
                     >
                       Add to Calendar
+                    </button>
+                    <button
+                      onClick={() => addToGoogleCalendar(event)}
+                      className="bg-red-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition"
+                    >
+                      Cancel
                     </button>
                   </td>
                 </tr>
