@@ -31,7 +31,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen bg-yellow-50 p-6">
+    <div className="flex flex-col items-center justify-center h-screen w-screen bg-gray-100 p-6">
       <h2 className="text-2xl font-bold text-black mb-4">Sign Up</h2>
       {error && <p className="text-red-500">{error}</p>}
       <form
@@ -53,7 +53,7 @@ const SignUp = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type="password"
+          type="current-password"
           placeholder="Password"
           className="p-2 border w-full rounded"
           value={password}

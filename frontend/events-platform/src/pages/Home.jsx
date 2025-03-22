@@ -25,7 +25,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen bg-yellow-50 p-6">
+    <div className="flex flex-col items-center justify-center h-screen w-screen bg-gray-1000 p-6">
       <h1 className="text-4xl font-bold text-gray-800 mb-4">
         Welcome to the Community Events Platform
       </h1>
