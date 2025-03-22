@@ -3,7 +3,7 @@ import axios from "axios";
 const EVENTBRITE_ORG_ID = "2665518177771";
 const EVENTBRITE_API_URL = `https://www.eventbriteapi.com/v3/organizations/${EVENTBRITE_ORG_ID}/events/`;
 
-const PROXY_API_URL = "http://localhost:3000/api/eventbrite"; // Adjust to your server’s URL
+const PROXY_API_URL = "https://eventplatform-eventbrite-proxy.onrender.com/api";
 
 export const fetchEvents = async () => {
   try {
@@ -106,15 +106,15 @@ export const createEventOnEventbrite = async (event) => {
 
 export const deleteEventFromEventbrite = async (eventbriteId) => {
   try {
-    await axios.delete(
-      `https://www.eventbriteapi.com/v3/events/${eventbriteId}/`,
+    const response = await axios.delete(
+      `${PROXY_API_URL}/events/${eventbriteId}`,
       {
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_EVENTBRITE_API_KEY}`,
         },
       }
     );
-    return true;
+    return response.data.success;
   } catch (error) {
     console.error(
       "Error deleting Eventbrite event:",
