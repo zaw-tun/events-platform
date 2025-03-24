@@ -27,6 +27,7 @@ const Admin = () => {
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState({});
 
   useEffect(() => {
     const checkUserRole = async () => {
@@ -143,6 +144,7 @@ const Admin = () => {
   const handleDeleteEvent = async (eventId, eventbriteId, source) => {
     if (!window.confirm("Are you sure you want to delete this event?")) return;
 
+    setIsDeleting((prev) => ({ ...prev, [eventId]: true }));
     try {
       if (source === "Eventbrite" && eventbriteId) {
         const success = await deleteEventFromEventbrite(eventbriteId);
@@ -160,6 +162,8 @@ const Admin = () => {
     } catch (err) {
       console.error("Error deleting event:", err);
       setError("Failed to delete event. Please try again.");
+    } finally {
+      setIsDeleting((prev) => ({ ...prev, [eventId]: false }));
     }
   };
 
@@ -384,9 +388,39 @@ const Admin = () => {
                                   event.source
                                 )
                               }
-                              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors"
+                              className={`px-3 py-1 rounded-md text-white transition-colors ${
+                                isDeleting[event.id]
+                                  ? "bg-red-300 cursor-not-allowed"
+                                  : "bg-red-500 hover:bg-red-600"
+                              }`}
+                              disabled={isDeleting[event.id]}
                             >
-                              Delete
+                              {isDeleting[event.id] ? (
+                                <span className="flex items-center">
+                                  <svg
+                                    className="animate-spin h-4 w-4 mr-2 text-white"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <circle
+                                      cx="12"
+                                      cy="12"
+                                      r="10"
+                                      stroke="currentColor"
+                                      strokeWidth="4"
+                                      fill="none"
+                                      className="opacity-25"
+                                    />
+                                    <path
+                                      fill="currentColor"
+                                      d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8v-8H4z"
+                                      className="opacity-75"
+                                    />
+                                  </svg>
+                                  Deleting...
+                                </span>
+                              ) : (
+                                "Delete"
+                              )}
                             </button>
                           </td>
                         </tr>

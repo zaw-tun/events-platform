@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { signUp } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
@@ -19,53 +20,56 @@ const SignUp = () => {
       if (result.success) {
         const userRef = doc(db, "users", result.user.uid);
         await setDoc(userRef, { name, role: "user" });
-
         navigate("/events");
       } else {
         setError(result.error);
       }
     } catch (err) {
       console.error("Unexpected error:", err);
-      setError("An unexpected error occured. Please try again.");
+      setError("An unexpected error occurred. Please try again.");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen bg-gray-100 p-6">
-      <h2 className="text-2xl font-bold text-black mb-4">Sign Up</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form
-        onSubmit={handleSignUp}
-        className="flex flex-col w-full gap-4 max-w-md"
-      >
-        <input
-          type="text"
-          placeholder="First Name"
-          className="p-2 border w-full rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          className="p-2 border w-full rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="current-password"
-          placeholder="Password"
-          className="p-2 border w-full rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white py-2 w-full rounded"
-        >
-          Sign Up
-        </button>
-      </form>
+    <div className="min-h-screen w-screen bg-gray-100 pt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-4xl font-bold text-gray-800">Sign Up</h2>
+          <p className="text-gray-600 mt-2">Join the community</p>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          <form onSubmit={handleSignUp} className="flex flex-col gap-4">
+            <input
+              type="text"
+              placeholder="First Name"
+              className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition w-full"
+            >
+              Sign Up
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
