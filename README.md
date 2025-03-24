@@ -46,29 +46,34 @@ cd events-platform
 
 This app uses Firebase for authentication and Firestore. Configure it as follows:
 
-Create a Firebase Project:
+**Create a Firebase Project:**
 
 Go to the Firebase Console.
+
 Click "Add project", name it (e.g., "Events Platform"), and complete the setup.
 
-Enable Authentication:
+**Enable Authentication:**
 
 In the sidebar, go to Authentication > Sign-in method.
+
 Enable Email/Password provider and save.
 
-Set Up Firestore:
+**Set Up Firestore:**
 
 In the sidebar, go to Firestore Database > Create database.
 Choose "Start in test mode" (for development) and select a region.
 
-Add a Test User:
+**Add a Test User:**
 
 In Authentication > Users, add a user with:
+
 Email: test.staff@example.com
+
 Password: Test1234!
+
 In Firestore > users/<uid>, add a document with { role: "staff" }.
 
-Copy Firebase Config:
+**Copy Firebase Config:**
 Go to Project Settings > General > Your apps.
 Add a web app, copy the firebaseConfig object.
 
@@ -118,6 +123,7 @@ echo ".env" >> .gitignore
 ```
 
 ### 5️⃣ Add Netlify Redirects (Optional for Local Testing)**
+
 For SPA routing (needed for deployment, not local):
 
 Create public/_redirects:
