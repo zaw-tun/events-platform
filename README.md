@@ -16,7 +16,7 @@ https://zawtun-events.netlify.app/
 - Authentication: Firebase Auth
 - Database: Firebase Firestore
 - API: Eventbrite API
-- Routing: React Router (assumed based on navigation in Admin.jsx)
+- Routing: React Router
 
 # 🔑 Test Account Access Details
 To test the application locally or on the deployed version (once available), use the following credentials:
