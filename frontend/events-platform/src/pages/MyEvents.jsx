@@ -96,7 +96,18 @@ const MyEvents = () => {
                     >
                       <td className="py-3 px-4 text-gray-800">{event.name}</td>
                       <td className="py-3 px-4 text-gray-800">
-                        {event.venue || "Not available"}
+                        {event.venue?.name || "TBD"}
+                        {event.venue?.address ? (
+                          <span className="block text-sm text-gray-600">
+                            {[
+                              event.venue.address.address_1,
+                              event.venue.address.city,
+                              event.venue.address.postal_code,
+                            ]
+                              .filter(Boolean)
+                              .join(", ")}
+                          </span>
+                        ) : null}
                       </td>
                       <td className="py-3 px-4 text-gray-800">
                         {new Date(event.date).toLocaleString()}

@@ -18,6 +18,16 @@ export const registerForEvent = async (userId, event) => {
       name: event.name.text,
       date: event.start.local,
       url: event.url,
+      venue: {
+        name: event.venue?.name || "TBD",
+        address: event.venue?.address
+          ? {
+              address_1: event.venue.address.address_1 || "",
+              city: event.venue.address.city || "",
+              postal_code: event.venue.address.postal_code || "",
+            }
+          : null,
+      },
       timestamp: new Date(),
     });
 
