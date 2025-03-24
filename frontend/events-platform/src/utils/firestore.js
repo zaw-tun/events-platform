@@ -1,5 +1,5 @@
 import { db } from "../firebase/firebaseConfig";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 
 export const registerForEvent = async (userId, event) => {
   try {
@@ -24,6 +24,17 @@ export const registerForEvent = async (userId, event) => {
     return { success: true };
   } catch (error) {
     console.error("Error registering for event:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const cancelRegistration = async (userId, eventId) => {
+  try {
+    const eventRef = doc(db, "users", userId, "registrations", eventId);;
+    await deleteDoc(eventRef);
+    return { success: true };
+  } catch (error) {
+    console.error("Error cancelling registration:", error);
     return { success: false, error: error.message };
   }
 };

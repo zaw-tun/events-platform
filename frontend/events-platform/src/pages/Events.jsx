@@ -40,7 +40,9 @@ const Events = () => {
     const result = await registerForEvent(user.uid, event);
     console.log(event);
     setMessage(
-      result.success ? "You are successfully registered!" : result.message
+      result.success
+        ? "You are successfully registered! Go to My Events if you want to cancel registration"
+        : result.message
     );
   };
 
@@ -54,8 +56,19 @@ const Events = () => {
           <p className="text-gray-600 mt-2">Discover our exciting events</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
+        {message && (
+            <p
+              className={`text-center mb-6 ${
+                message.includes("successfully")
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              {message}
+            </p>
+          )}
           {loading ? (
-            <div className="flex justify-center items-center py-6">
+            <div className="flex w-screen justify-center items-center py-6">
               <svg
                 className="animate-spin h-6 w-6 text-blue-600"
                 viewBox="0 0 24 24"
@@ -83,7 +96,7 @@ const Events = () => {
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {message && <p className="text-red-600">{message}</p>}
+              <></>
               {events.map((event) => (
                 <div
                   key={event.id}

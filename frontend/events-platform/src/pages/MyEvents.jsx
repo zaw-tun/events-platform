@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../firebase/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
+import { cancelRegistration } from "../utils/firestore";
 
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        const eventsRef = collection(
-          db,
-          "users",
-          currentUser.uid,
-          "registrations"
-        );
-        const eventsSnap = await getDocs(eventsRef);
-        const eventsList = eventsSnap.docs.map((doc) => doc.data());
-        setEvents(eventsList);
-        console.log(eventsList);
+        await fetchUserEvents(currentUser.uid);
       }
     });
-
     return () => unsubscribe();
   }, []);
+
+  const fetchUserEvents = async (uid) => {
+    const eventsRef = collection(db, "users", uid, "registrations");
+    const eventsSnap = await getDocs(eventsRef);
+    const updatedEvents = eventsSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setEvents(updatedEvents);
+    console.log(updatedEvents);
+  };
 
   const addToGoogleCalendar = (event) => {
     const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
@@ -36,8 +39,21 @@ const MyEvents = () => {
     window.open(googleCalendarUrl, "_blank");
   };
 
+  const handleCancel = async (eventId) => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const result = await cancelRegistration(user.uid, eventId);
+    if (result.success) {
+      setEvents((prev) => prev.filter((event) => event.id !== eventId));
+      setMessage("Registration cancelled.");
+    } else {
+      setMessage("Failed to cancel registration. Try again.");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 pt-20">
+    <div className="min-h-screen w-screen bg-gray-100 pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 text-center">
           <h2 className="text-4xl font-bold text-gray-800">
@@ -74,7 +90,10 @@ const MyEvents = () => {
                 </thead>
                 <tbody>
                   {events.map((event, index) => (
-                    <tr key={index} className="border-t hover:bg-gray-50 transition-colors">
+                    <tr
+                      key={index}
+                      className="border-t hover:bg-gray-50 transition-colors"
+                    >
                       <td className="py-3 px-4 text-gray-800">{event.name}</td>
                       <td className="py-3 px-4 text-gray-800">
                         {event.venue || "Not available"}
@@ -99,13 +118,13 @@ const MyEvents = () => {
                         >
                           Add to Calendar
                         </button>
-                        
-                        {/* <button
-                          onClick={() => addToGoogleCalendar(event)}
+
+                        <button
+                          onClick={() => handleCancel(event.id)}
                           className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
                         >
                           Cancel
-                        </button> */}
+                        </button>
                       </td>
                     </tr>
                   ))}
