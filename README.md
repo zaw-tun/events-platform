@@ -4,7 +4,7 @@ Events Platform is a React.js application built with Vite that allows staff user
 https://zawtun-events.netlify.app/
 
 # 🚀 Features
-- 🔑 Firebase Authentication: Secure login for staff users (Email/Password).
+- 🔑 Firebase Authentication: Secure login for staff and users (Email/Password).
 - 🎫 Eventbrite Integration: Create, fetch, and delete events via the Eventbrite API.
 - 📊 Firestore Storage: Store event details (name, venue, date, description, image file name) in Firebase Firestore.
 - 🖼️ Image Upload: Support for uploading event images to Eventbrite (currently in progress due to API issues).
@@ -32,17 +32,17 @@ Note: These credentials should be set up in your Firebase Authentication console
 # 🔧 Installation & Setup to Run the Project Locally
 Follow these steps to run the Events Platform locally:
 
-1️⃣ Clone the Repository
-
+### 1️⃣ Clone the Repository
+```
 git clone https://github.com/zaw-tun/events-platform.git
 cd events-platform
+```
+### 2️⃣ Install Dependencies
 
-2️⃣ Install Dependencies
-
-npm install
+```npm install```
 <This installs required packages like react, firebase, axios, and tailwindcss.>
 
-3️⃣ Set Up Firebase
+### 3️⃣ Set Up Firebase
 
 This app uses Firebase for authentication and Firestore. Configure it as follows:
 
@@ -74,6 +74,7 @@ Add a web app, copy the firebaseConfig object.
 
 Update firebaseConfig.js:
 Open src/firebase/firebaseConfig.js (create if missing) and update:
+```
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -90,11 +91,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+```
 
-4️⃣ Set Up Environment Variables
+### 4️⃣ Set Up Environment Variables
 
 Create a .env file in the project root and add:
-
+```
 VITE_FIREBASE_API_KEY="YOUR_FIREBASE_API_KEY"
 VITE_FIREBASE_AUTH_DOMAIN="your-project.firebaseapp.com"
 VITE_FIREBASE_PROJECT_ID="your-project-id"
@@ -102,27 +104,30 @@ VITE_FIREBASE_STORAGE_BUCKET="your-project.appspot.com"
 VITE_FIREBASE_MESSAGING_SENDER_ID="1234567890"
 VITE_FIREBASE_APP_ID="1:1234567890:web:abcdef123456"
 VITE_EVENTBRITE_API_KEY="YOUR_EVENTBRITE_API_KEY"
+```
+
 Replace values with your Firebase config and Eventbrite API key.
 Get Eventbrite API Key:
 Log in to Eventbrite.
 Go to Developer Portal > API Keys, create a key, and copy it.
 
-
 Add .env to .gitignore:
-
+```
 echo ".env" >> .gitignore
 
+```
 
-5️⃣ Add Netlify Redirects (Optional for Local Testing)**
+### 5️⃣ Add Netlify Redirects (Optional for Local Testing)**
 For SPA routing (needed for deployment, not local):
 
 Create public/_redirects:
+```
 echo "/* /index.html 200" > public/_redirects
+```
 
+### 6️⃣ Run the Project
 
-6️⃣ Run the Project
-
-npm run dev
+```npm run dev```
 The app will run at http://localhost:5173/.
 Log in with the test credentials to access the admin dashboard.
 
